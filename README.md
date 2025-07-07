@@ -4,7 +4,7 @@ A web app integrating WebRTC and WebSockets to share files with other LocalSend 
 
 ## Tags
 
-- `latest`: latest localsend web app on top of [nginx-unprivileged](https://hub.docker.com/r/nginxinc/nginx-unprivileged) image
+- `latest`: latest localsend web app on top of [caddy](https://hub.docker.com/_/caddy) image
 
 ## Pull
 
@@ -22,10 +22,15 @@ podman pull ghcr.io/queeup-containers/localsend-web
 podman run \
     --detach \
     --name localsend-web \
-    --publish 8080:8080 \
+    --publish 8080:443 \
     --rm \
+    --volume caddy-data:/data `# Caddy stores TLS certificates` \
     localsend-web
 ```
+
+Now you can open self-hosted `localsend-web` on your browser
+
+- `https://localhost:8080` or `https://ip_address:8080`
 
 ## Build
 
