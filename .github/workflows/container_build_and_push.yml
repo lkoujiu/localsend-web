@@ -7,6 +7,8 @@ on:
       - 'v*'
     paths:
       - '**Containerfile**'
+  schedule:
+    - cron: "0 3 7 * *"
   workflow_dispatch:
 
 jobs:
@@ -17,12 +19,6 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -65,13 +61,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Update repo description
-        uses: peter-evans/dockerhub-description@v4
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          repository: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
-          short-description: ${{ github.event.repository.description }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
