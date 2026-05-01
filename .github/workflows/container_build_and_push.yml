@@ -15,7 +15,9 @@ jobs:
   push_to_registries:
     name: Push Container image to multiple registries
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
