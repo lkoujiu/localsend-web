@@ -34,9 +34,7 @@ jobs:
           tags: |
             type=raw,value=latest
             type=ref,event=tag
-          images: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}
-            ghcr.io/${{ github.repository }}
+          images:  ghcr.io/${{ github.repository }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -60,7 +58,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
